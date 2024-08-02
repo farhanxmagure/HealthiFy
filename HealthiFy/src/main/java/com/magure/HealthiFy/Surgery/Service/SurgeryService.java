@@ -33,7 +33,7 @@ public class SurgeryService {
         return new SurgeryResponse(savedSurgery);
     }
 
-    @Secured("ROLE_PROVIDER") // Assuming only Providers can update status
+    // Secured("ROLE_PROVIDER") // Assuming only Providers can update status
     public SurgeryResponse updateSurgeryStatus(String id, SurgeryStatus status) {
         Surgery surgery = surgeryRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Surgery not found with id: " + id));

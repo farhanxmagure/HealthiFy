@@ -31,6 +31,14 @@ public class AuthTokenFilter extends OncePerRequestFilter {
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain)
             throws ServletException, IOException {
         try {
+            String uri = request.getRequestURI();
+            logger.debug("Requested URI: {}", uri);
+            if (uri.startsWith("/swagger-ui/") || uri.startsWith("/v3/api-docs/") || uri.startsWith("/swagger-resources")) {
+                logger.debug("Swagger/OpenAPI request detected, bypassing authentication");
+                filterChain.doFilter(request, response);
+                return;
+            }
+                
             String jwt = parseJwt(request);
             if (jwt != null && jwtUtils.validateJwtToken(jwt)) {
                 String username = jwtUtils.getUserNameFromJwtToken(jwt);
