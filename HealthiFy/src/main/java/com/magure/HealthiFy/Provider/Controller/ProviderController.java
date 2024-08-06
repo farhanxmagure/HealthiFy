@@ -8,6 +8,7 @@ import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.http.MediaType;
 
 @RestController
 @RequestMapping("/api/providers")
@@ -16,6 +17,7 @@ public class ProviderController {
     @Autowired
     private ProviderService providerService;
 
+    @PreAuthorize("hasRole('ROLE_PROVIDER')")
     @Operation(summary = "Create a new provider")
     @PostMapping
     public ProviderResponse createProvider(@RequestBody ProviderRequest request) {
@@ -29,7 +31,7 @@ public class ProviderController {
     }
 
     @Operation(summary = "Update provider information", security = @SecurityRequirement(name = "bearerAuth"))
-    @PutMapping("/{id}")
+    @PutMapping(value = "/{id}", consumes = MediaType.APPLICATION_JSON_VALUE, produces = MediaType.APPLICATION_JSON_VALUE)
     @PreAuthorize("hasRole('ROLE_PROVIDER')")
     public ProviderResponse updateProvider(@PathVariable String id, @RequestBody ProviderRequest request) {
         return providerService.updateProvider(id, request);

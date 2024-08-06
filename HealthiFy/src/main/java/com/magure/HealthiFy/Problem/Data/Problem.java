@@ -1,6 +1,7 @@
 package com.magure.HealthiFy.Problem.Data;
 
 import com.magure.HealthiFy.Patient.Data.Patient;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -12,6 +13,7 @@ import java.util.Date;
 
 @Document(collection = "problems")
 @Data
+@Builder
 public class Problem {
 
     @Id

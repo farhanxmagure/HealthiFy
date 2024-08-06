@@ -3,12 +3,11 @@ package com.magure.HealthiFy.Patient.Service;
 import com.magure.HealthiFy.Patient.Data.Patient;
 import com.magure.HealthiFy.Patient.Data.Request.PatientRequest;
 import com.magure.HealthiFy.Patient.Data.Response.PatientResponse;
-import java.time.LocalDateTime;
-
 import com.magure.HealthiFy.Patient.Repository.PatientRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 
 @Service
 public class PatientService {
@@ -17,14 +16,15 @@ public class PatientService {
     private PatientRepository patientRepository;
 
     public PatientResponse createPatient(PatientRequest request) {
-        Patient patient = new Patient();
-        patient.setFirstName(request.getFirstName());
-        patient.setLastName(request.getLastName());
-        patient.setDateOfBirth(request.getDateOfBirth());
-        patient.setEmail(request.getEmail());
-        patient.setMobilePhone(request.getMobilePhone());
-        patient.setCreatedDate(LocalDateTime.now());
-        patient.setUpdatedDate(LocalDateTime.now());
+        Patient patient = Patient.builder()
+                .firstName(request.getFirstName())
+                .lastName(request.getLastName())
+                .dateOfBirth(request.getDateOfBirth())
+                .email(request.getEmail())
+                .mobilePhone(request.getMobilePhone())
+                .createdDate(LocalDateTime.now())
+                .updatedDate(LocalDateTime.now())
+                .build();
 
         Patient savedPatient = patientRepository.save(patient);
         return new PatientResponse(savedPatient);

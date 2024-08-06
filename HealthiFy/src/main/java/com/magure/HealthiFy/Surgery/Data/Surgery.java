@@ -1,6 +1,7 @@
 package com.magure.HealthiFy.Surgery.Data;
 
 import com.magure.HealthiFy.Patient.Data.Patient;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.Id;
@@ -9,7 +10,9 @@ import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.util.Date;
+
 @Data
+@Builder(toBuilder = true)
 @Document(collection = "surgeries")
 public class Surgery {
     @Id
@@ -24,5 +27,4 @@ public class Surgery {
     private Date createdDate;
     @LastModifiedDate
     private Date updatedDate;
-
 }

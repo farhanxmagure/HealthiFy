@@ -11,21 +11,22 @@ import org.springframework.stereotype.Service;
 import java.util.Date;
 
 @Service
-public class ProblemService {
+public class  ProblemService {
 
     @Autowired
     private ProblemRepository problemRepository;
 
     public ProblemResponse createProblem(ProblemRequest request) {
-        Problem problem = new Problem();
-        problem.setPatient(request.getPatient());
-        problem.setName(request.getName());
-        problem.setDescription(request.getDescription());
-        problem.setStartDate(request.getStartDate());
-        problem.setProblemStatus(ProblemStatus.PENDING);
-        problem.setComment(request.getComment());
-        problem.setCreatedDate(new Date());
-        problem.setUpdatedDate(new Date());
+        Problem problem = Problem.builder()
+                .patient(request.getPatient())
+                .name(request.getName())
+                .description(request.getDescription())
+                .startDate(request.getStartDate())
+                .problemStatus(ProblemStatus.PENDING)
+                .comment(request.getComment())
+                .createdDate(new Date())
+                .updatedDate(new Date())
+                .build();
 
         Problem savedProblem = problemRepository.save(problem);
         return new ProblemResponse(savedProblem);

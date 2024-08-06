@@ -11,7 +11,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.Date;
 
-
 @Service
 public class SurgeryService {
 
@@ -20,14 +19,15 @@ public class SurgeryService {
 
     @Secured("ROLE_PATIENT")
     public SurgeryResponse createSurgery(SurgeryRequest request) {
-        Surgery surgery = new Surgery();
-        surgery.setPatient(request.getPatient());
-        surgery.setName(request.getName());
-        surgery.setDescription(request.getDescription());
-        surgery.setSurgeryDate(request.getSurgeryDate());
-        surgery.setSurgeryStatus(SurgeryStatus.PENDING);
-        surgery.setCreatedDate(new Date());
-        surgery.setUpdatedDate(new Date());
+        Surgery surgery = Surgery.builder()
+                .patient(request.getPatient())
+                .name(request.getName())
+                .description(request.getDescription())
+                .surgeryDate(request.getSurgeryDate())
+                .surgeryStatus(SurgeryStatus.PENDING)
+                .createdDate(new Date())
+                .updatedDate(new Date())
+                .build();
 
         Surgery savedSurgery = surgeryRepository.save(surgery);
         return new SurgeryResponse(savedSurgery);
@@ -41,9 +41,12 @@ public class SurgeryService {
         if (status == SurgeryStatus.ACTIVE) {
             // Check if the current status is PENDING
             if (surgery.getSurgeryStatus() == SurgeryStatus.PENDING) {
-                surgery.setSurgeryStatus(status);
-                surgery.setUpdatedDate(new Date());
-                Surgery updatedSurgery = surgeryRepository.save(surgery);
+                Surgery updatedSurgery = surgery.toBuilder()
+                        .surgeryStatus(status)
+                        .updatedDate(new Date())
+                        .build();
+
+                updatedSurgery = surgeryRepository.save(updatedSurgery);
                 return new SurgeryResponse(updatedSurgery);
             } else {
                 throw new RuntimeException("Surgery status can only be set to ACTIVE from PENDING");

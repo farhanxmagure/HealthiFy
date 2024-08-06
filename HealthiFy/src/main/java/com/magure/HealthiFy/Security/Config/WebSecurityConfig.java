@@ -24,7 +24,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 public class WebSecurityConfig {
 
     @Autowired
-    UserDetailsServiceImpl userDetailsService;
+    private UserDetailsServiceImpl userDetailsService;
 
     @Autowired
     private AuthEntryPointJwt unauthorizedHandler;
@@ -44,8 +44,6 @@ public class WebSecurityConfig {
             "/configuration/security",
             "/api/v1/auth/**"
     };
-
-
 
     @Bean
     public DaoAuthenticationProvider authenticationProvider() {
@@ -79,7 +77,6 @@ public class WebSecurityConfig {
                 .requestMatchers(SWAGGER_WHITELIST).permitAll()
                 .anyRequest().authenticated();
 
-        http.authenticationProvider(authenticationProvider());
         http.addFilterBefore(authenticationJwtTokenFilter(), UsernamePasswordAuthenticationFilter.class);
 
         return http.build();

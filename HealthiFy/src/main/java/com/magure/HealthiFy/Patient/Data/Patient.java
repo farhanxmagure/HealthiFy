@@ -1,5 +1,7 @@
 package com.magure.HealthiFy.Patient.Data;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Data;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
@@ -9,6 +11,8 @@ import org.springframework.data.mongodb.core.mapping.Document;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
 @Data
+@Builder
+@AllArgsConstructor
 @Document(collection = "patients")
 public class Patient {
     @Id
